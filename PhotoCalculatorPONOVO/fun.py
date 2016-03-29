@@ -100,36 +100,11 @@ def sredi_izlaz_hundred(outputs):
 
     return izlaz
 
-
-
-def konture(image_orig, image_bin):
-    
-    contours, hierarchy = cv2.findContours(image_bin.copy(),cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-     
-    sorted_regions = []
-    regions_dic = {}
-    i = 0
-    
-    for contour in contours:
-        if(hierarchy[0][i][3]==0):
-            x,y,w,h = cv2.boundingRect(contour)
-            region = image_bin[y:y+h+1,x:x+w+1]
-            regions_dic[x] = resize_region(region)       
-            cv2.rectangle(image_orig,(x,y),(x+w,y+h),(0,255,0),2)
-        i=i+1
-    
-    sorted_regions_dic = collections.OrderedDict(sorted(regions_dic.items()))
-    sorted_regions = sorted_regions_dic.values()
-    # sortirati sve regione po x osi (sa leva na desno) i smestiti u promenljivu sorted_regions
-
-    return image_orig, sorted_regions   
-
-
 def resize_test(region):
     resized = cv2.resize(region,(region.shape[1],region.shape[0]), interpolation = cv2.INTER_NEAREST)
     return resized
 
-def konture_test(image_orig, image_bin):
+def konture(image_orig, image_bin):
     
     contours, hierarchy = cv2.findContours(image_bin.copy(),cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -151,7 +126,32 @@ def konture_test(image_orig, image_bin):
     sorted_regions = sorted_regions_dic.values()
     # sortirati sve regione po x osi (sa leva na desno) i smestiti u promenljivu sorted_regions
 
-    return image_orig, sorted_regions      
+    return image_orig, sorted_regions 
+
+
+def konture_testtest(image_orig, image_bin):
+    
+    contours, hierarchy = cv2.findContours(image_bin.copy(),cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    sorted_regions = []
+    regions_dic = {}
+    i = 0
+
+    for contour in contours:
+        if(hierarchy[0][i][3]==0 or hierarchy[0][i][3]==-1):
+            x,y,w,h = cv2.boundingRect(contour)
+            region = image_bin[y:y+h+1,x:x+w+1]
+            #regions_dic[x] = resize_region(region)
+            #regions_dic[x] = resize_test(region)  
+            regions_dic[x] = region     
+            cv2.rectangle(image_orig,(x,y),(x+w,y+h),(0,255,0),2)
+        i=i+1
+    
+    sorted_regions_dic = collections.OrderedDict(sorted(regions_dic.items()))
+    sorted_regions = sorted_regions_dic.values()
+    # sortirati sve regione po x osi (sa leva na desno) i smestiti u promenljivu sorted_regions
+
+    return image_orig, sorted_regions     
 
 def create_ann():
     
