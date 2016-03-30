@@ -16,6 +16,7 @@ import matplotlib.pylab as pylab
 from fun import *
 from train import *
 import pickle
+from printRecognition import *
 
 def recognize_digit(ann, slika2):
 	sli = image_bin(image_gray(slika2)) 
@@ -70,23 +71,34 @@ def main():
 
 	print ('Start!')
 
-	digits1000, images1000, avg = create_train_hundred_test()
+	#digits1000, images1000, avg = create_train_hundred_test()
 	
-	inputs1000 = prepare_for_ann(images1000)
-	outputs1000 = sredi_izlaz_hundred(digits1000)
-	#ann1000_test = create_ann()
+	#inputs1000 = prepare_for_ann(images1000)
+	#outputs1000 = sredi_izlaz_thousand(digits1000)
+	#ann_best = create_ann()
 	#print ('Obucavanje...')
-	#ann1000_test = train_ann(ann1000_test, inputs1000, outputs1000)
+	#ann_best= train_ann(ann_best, inputs1000, outputs1000)
 	#print('Gotovo obucavanje')
-	#pickle.dump( ann1000_test, open("saveANN1000_test.p", "wb"))
-	ann1000_test = pickle.load( open( "saveANN1000_test.p", "rb" ))
-	#print ("Moja slika")
-	#rec_all(ann1000_test, 'images/img5.png')
-	print ("MNIST slicice")
-	validate_recognition(ann1000_test, 'digit_separated/digit_0/', 'test100.txt', '0')
+	#pickle.dump( ann_best, open("saveANN_best.p", "wb"))
+	
 
-	#plt.imshow(avg[9], 'gray', interpolation='nearest')
+	#ann1000_best = pickle.load( open( "saveANN_best.p", "rb" ))
+
+	#print ("Moja slika")
+	#rec_all(ann1000_best, 'images/img6.png')
+
+	#print ("MNIST slicice")
+	#validate_recognition(ann1000_best, 'digit_separated/digit_0/', 'test100.txt', '0')
+
+	#plt.imshow(avg[8], 'gray', interpolation='nearest')
 	#plt.waitforbuttonpress()
+
+
+	# PRINTED RECOGNITION
+	print_recognition()
+
+
+
 
 	print ('Kraj')
 

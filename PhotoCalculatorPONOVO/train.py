@@ -102,16 +102,17 @@ def create_test10():
 
 def create_train_hundred():
 
-    digit_0 = ['0']*100
-    digit_1 = ['1']*100
-    digit_2 = ['2']*100
-    digit_3 = ['3']*100
-    digit_4 = ['4']*100
-    digit_5 = ['5']*100
-    digit_6 = ['6']*100
-    digit_7 = ['7']*100
-    digit_8 = ['8']*100
-    digit_9 = ['9']*100
+    digit_0 = ['0']*1000
+    digit_1 = ['1']*1000
+    digit_2 = ['2']*1000
+    digit_3 = ['3']*1000
+    digit_4 = ['4']*1000
+    digit_5 = ['5']*1000
+    digit_6 = ['6']*1000
+    digit_7 = ['7']*1000
+    digit_8 = ['8']*1000
+    digit_9 = ['9']*1000
+
     digits = digit_0 + digit_1 + digit_2+ digit_3+digit_4+digit_5+digit_6+digit_7+digit_8+digit_9
 
     images_0 = []
@@ -126,25 +127,25 @@ def create_train_hundred():
     images_9 = []
 
 
-    with open('digit_separated/digit_0/train100.txt') as f:
+    with open('digit_separated/digit_0/train1000.txt') as f:
         content_0 = f.readlines()
-    with open('digit_separated/digit_1/train100.txt') as f:
+    with open('digit_separated/digit_1/train1000.txt') as f:
         content_1 = f.readlines()  
-    with open('digit_separated/digit_2/train100.txt') as f:
+    with open('digit_separated/digit_2/train1000.txt') as f:
         content_2 = f.readlines()   
-    with open('digit_separated/digit_3/train100.txt') as f:
+    with open('digit_separated/digit_3/train1000.txt') as f:
         content_3 = f.readlines()
-    with open('digit_separated/digit_4/train100.txt') as f:
+    with open('digit_separated/digit_4/train1000.txt') as f:
         content_4 = f.readlines()
-    with open('digit_separated/digit_5/train100.txt') as f:
+    with open('digit_separated/digit_5/train1000.txt') as f:
         content_5 = f.readlines()
-    with open('digit_separated/digit_6/train100.txt') as f:
+    with open('digit_separated/digit_6/train1000.txt') as f:
         content_6 = f.readlines()    
-    with open('digit_separated/digit_7/train100.txt') as f:
+    with open('digit_separated/digit_7/train1000.txt') as f:
         content_7 = f.readlines()
-    with open('digit_separated/digit_8/train100.txt') as f:
+    with open('digit_separated/digit_8/train1000.txt') as f:
         content_8 = f.readlines()
-    with open('digit_separated/digit_9/train100.txt') as f:
+    with open('digit_separated/digit_9/train1000.txt') as f:
         content_9 = f.readlines()
 
 
@@ -276,16 +277,16 @@ def img_preproc(path):
 
 def create_train_hundred_test():
 
-    digit_0 = ['0']*100
-    digit_1 = ['1']*100
-    digit_2 = ['2']*100
-    digit_3 = ['3']*100
-    digit_4 = ['4']*100
-    digit_5 = ['5']*100
-    digit_6 = ['6']*100
-    digit_7 = ['7']*100
-    digit_8 = ['8']*100
-    digit_9 = ['9']*100
+    digit_0 = ['0']*1000
+    digit_1 = ['1']*1000
+    digit_2 = ['2']*1000
+    digit_3 = ['3']*1000
+    digit_4 = ['4']*1000
+    digit_5 = ['5']*1000
+    digit_6 = ['6']*1000
+    digit_7 = ['7']*1000
+    digit_8 = ['8']*1000
+    digit_9 = ['9']*1000
     digits = digit_0 + digit_1 + digit_2+ digit_3+digit_4+digit_5+digit_6+digit_7+digit_8+digit_9
 
     images_0 = []
@@ -311,108 +312,108 @@ def create_train_hundred_test():
     avg_9 = np.zeros((28,28))
     avg = np.zeros((10,28,28))
 
-    with open('digit_separated/digit_0/train100.txt') as f:
+    with open('digit_separated/digit_0/train1000.txt') as f:
         content_0 = f.readlines()
-    with open('digit_separated/digit_1/train100.txt') as f:
+    with open('digit_separated/digit_1/train1000.txt') as f:
         content_1 = f.readlines()  
-    with open('digit_separated/digit_2/train100.txt') as f:
+    with open('digit_separated/digit_2/train1000.txt') as f:
         content_2 = f.readlines()   
-    with open('digit_separated/digit_3/train100.txt') as f:
+    with open('digit_separated/digit_3/train1000.txt') as f:
         content_3 = f.readlines()
-    with open('digit_separated/digit_4/train100.txt') as f:
+    with open('digit_separated/digit_4/train1000.txt') as f:
         content_4 = f.readlines()
-    with open('digit_separated/digit_5/train100.txt') as f:
+    with open('digit_separated/digit_5/train1000.txt') as f:
         content_5 = f.readlines()
-    with open('digit_separated/digit_6/train100.txt') as f:
+    with open('digit_separated/digit_6/train1000.txt') as f:
         content_6 = f.readlines()    
-    with open('digit_separated/digit_7/train100.txt') as f:
+    with open('digit_separated/digit_7/train1000.txt') as f:
         content_7 = f.readlines()
-    with open('digit_separated/digit_8/train100.txt') as f:
+    with open('digit_separated/digit_8/train1000.txt') as f:
         content_8 = f.readlines()
-    with open('digit_separated/digit_9/train100.txt') as f:
+    with open('digit_separated/digit_9/train1000.txt') as f:
         content_9 = f.readlines()
 
 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_0/' + content_0[i][:-1]
         slicica = img_preproc_train(naziv)
         images_0.append(slicica)
         avg_0 = add_matrices(avg_0, slicica)
 
-    avg[0] = avg_value(avg_0, 100.0)
+    avg[0] = avg_value(avg_0, 1000.0)
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_1/' + content_1[i][:-1]
         slicica = img_preproc_train(naziv)
         images_1.append(slicica)
         avg_1 = add_matrices(avg_1, slicica)
 
-    avg[1] = avg_value(avg_1, 100.0)
+    avg[1] = avg_value(avg_1, 1000.0)
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_2/' + content_2[i][:-1]
         slicica = img_preproc_train(naziv)
         images_2.append(slicica) 
         avg_2 = add_matrices(avg_2, slicica)
 
-    avg[2] = avg_value(avg_2, 100.0) 
+    avg[2] = avg_value(avg_2, 1000.0) 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_3/' + content_3[i][:-1]
         slicica = img_preproc_train(naziv)
         images_3.append(slicica) 
         avg_3 = add_matrices(avg_3, slicica)
         
-    avg[3] = avg_value(avg_3, 100.0) 
+    avg[3] = avg_value(avg_3, 1000.0) 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_4/' + content_4[i][:-1]
         slicica = img_preproc_train(naziv)
         images_4.append(slicica)  
         avg_4 = add_matrices(avg_4, slicica)
         
-    avg[4] = avg_value(avg_4, 100.0) 
+    avg[4] = avg_value(avg_4, 1000.0) 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_5/' + content_5[i][:-1]
         slicica = img_preproc_train(naziv)
         images_5.append(slicica)
         avg_5 = add_matrices(avg_5, slicica)
         
-    avg[5] = avg_value(avg_5, 100.0) 
+    avg[5] = avg_value(avg_5, 1000.0) 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_6/' + content_6[i][:-1]
         slicica = img_preproc_train(naziv)
         images_6.append(slicica)
         avg_6 = add_matrices(avg_6, slicica)
         
-    avg[6] = avg_value(avg_6, 100.0)  
+    avg[6] = avg_value(avg_6, 1000.0)  
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_7/' + content_7[i][:-1]
         slicica = img_preproc_train(naziv)
         images_7.append(slicica)
         avg_7 = add_matrices(avg_7, slicica)
         
-    avg[7] = avg_value(avg_7, 100.0)  
+    avg[7] = avg_value(avg_7, 1000.0)  
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_8/' + content_8[i][:-1]
         slicica = img_preproc_train(naziv)
         images_8.append(slicica) 
         avg_8 = add_matrices(avg_8, slicica)
         
-    avg[8] = avg_value(avg_8, 100.0) 
+    avg[8] = avg_value(avg_8, 1000.0) 
 
-    for i in range(0,100):
+    for i in range(0,1000):
         naziv = 'digit_separated/digit_9/' + content_9[i][:-1]
         slicica = img_preproc_train(naziv)
         images_9.append(slicica)  
         avg_9 = add_matrices(avg_9, slicica)
         
-    avg[9] = avg_value(avg_9, 100.0)    
+    avg[9] = avg_value(avg_9, 1000.0)    
 
     images = images_0 + images_1 + images_2 + images_3 + images_4 + images_5 + images_6 + images_7 + images_8 + images_9
 

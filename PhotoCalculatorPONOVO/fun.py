@@ -100,6 +100,32 @@ def sredi_izlaz_hundred(outputs):
 
     return izlaz
 
+
+def sredi_izlaz_thousand(outputs):
+    izlaz = np.zeros((10000,10))
+    for i in range(0,1000):
+        izlaz[i][0] = 1
+    for i in range(1000,2000):
+        izlaz[i][1] = 1  
+    for i in range(2000,3000):
+        izlaz[i][2] = 1
+    for i in range(3000,4000):
+        izlaz[i][3] = 1
+    for i in range(4000, 5000):
+        izlaz[i][4] = 1
+    for i in range(5000, 6000):
+        izlaz[i][5] = 1
+    for i in range(6000, 7000):
+        izlaz[i][6] = 1
+    for i in range(7000, 8000):
+        izlaz[i][7] = 1
+    for i in range(8000, 9000):
+        izlaz[i][8] = 1    
+    for i in range(9000, 10000):
+        izlaz[i][9] = 1
+
+    return izlaz
+
 def resize_test(region):
     resized = cv2.resize(region,(region.shape[1],region.shape[0]), interpolation = cv2.INTER_NEAREST)
     return resized
@@ -156,7 +182,7 @@ def konture_testtest(image_orig, image_bin):
 def create_ann():
     
     ann = Sequential()
-    ann.add(Dense(128, input_dim=784, activation='sigmoid'))
+    ann.add(Dense(1024, input_dim=784, activation='sigmoid'))
     ann.add(Dense(10, activation='sigmoid'))
     return ann
 
@@ -168,7 +194,7 @@ def train_ann(ann, X_train, y_train):
     sgd = SGD(lr=0.01, momentum=0.9)
     ann.compile(loss='mean_squared_error', optimizer=sgd)
 
-    ann.fit(X_train, y_train, nb_epoch=2000, batch_size=1, verbose = 1, shuffle=False, show_accuracy = False) 
+    ann.fit(X_train, y_train, nb_epoch=100, batch_size=1, verbose = 1, shuffle=False, show_accuracy = False) 
       
     return ann
 
