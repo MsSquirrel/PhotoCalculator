@@ -168,14 +168,12 @@ def konture_testtest(image_orig, image_bin):
             x,y,w,h = cv2.boundingRect(contour)
             region = image_bin[y:y+h+1,x:x+w+1]
             #regions_dic[x] = resize_region(region)
-            #regions_dic[x] = resize_test(region)  
             regions_dic[x] = region     
             cv2.rectangle(image_orig,(x,y),(x+w,y+h),(0,255,0),2)
         i=i+1
     
     sorted_regions_dic = collections.OrderedDict(sorted(regions_dic.items()))
     sorted_regions = sorted_regions_dic.values()
-    # sortirati sve regione po x osi (sa leva na desno) i smestiti u promenljivu sorted_regions
 
     return image_orig, sorted_regions     
 

@@ -141,22 +141,26 @@ def print_recognition():
 	#pickle.dump( ann_print, open("saveANN_stampanoZagrade.p", "wb"))
 	
 	ann_print = pickle.load( open( "saveANN_stampanoZagrade.p", "rb" ) )
-	print ("VALIDATION")
-	validate_print_recognition(ann_print)
 
+	validate_print_recognition(ann_print)
 
 def validate_print_recognition(ann):
 
-	print('Prepoznate cifre')
+	for i in range(5):
+		naziv = 'print_test/img'+str(i+1)+'.jpg'
+		img_print_recognition(ann, naziv)
+
+
+
+def img_print_recognition(ann, path):
+
 	res=''
-	test_img = load_image('print_test/img8.jpg')
+	test_img = load_image(path)
 	test_bin = invert(image_bin(image_gray(test_img)))
 	
 	n, kont, region_borders = konture_print(test_img.copy(), test_bin)
 	region_borders = sort_borders(region_borders)
-	print region_borders
 	
-
 	konture = []
 	for k in kont:
 		konture.append(img_resize(k))
@@ -164,11 +168,10 @@ def validate_print_recognition(ann):
 	for k in konture:
 		res+=recog_contour(ann, k)[0]
 
-	print res
 	proc_res = exp_preproc(res, region_borders)
-	print ('Result procesing '+proc_res)
-	#wa = get_result(proc_res)
-	#print wa
+	print ("\nrecognized "+ res+' after expression processing '+proc_res)
+	get_result(proc_res)
+	#print ("result "+str(wolfram_result))
 
 	#plt.imshow(konture[0], 'gray')
 	#plt.waitforbuttonpress()
@@ -239,6 +242,7 @@ def is_digit(c):
 
 	return False
 
+
 def get_result(exp):
 
 	app_id = 'HUEHQG-VKXQR866QA'
@@ -246,7 +250,9 @@ def get_result(exp):
 	res = client.query(exp)
 	#for pod in res.pods:
 	#   print pod
-    
-	ret_val = next(res.results).text
-	return ret_val
+	try:
+		print (next(res.results).text)
+	except StopIteration:
+		print res.pods[2].text
+	#return ret_val
 

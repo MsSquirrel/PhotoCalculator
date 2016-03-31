@@ -18,27 +18,14 @@ from train import *
 import pickle
 from printRecognition import *
 
-def recognize_digit(ann, slika2):
-	sli = image_bin(image_gray(slika2)) 
-	test_inputs = resize_region(sli)
-	test = matrix_to_vector(scale_to_range(test_inputs))
-	
-	test = test.reshape(1, test.shape[0]) # strange error when doing with both theano and numpy
-	print(test.shape)
-	result = ann.predict(test, batch_size=1)
-
-	brojevi = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-	print display_result(result, brojevi)
-
-
-def rec_all(ann, naziv):
+def recognize_all(ann, naziv):
 	slicica = load_image(naziv)
 	images  = img_pre_img(slicica)
-	plt.imshow(slicica,'gray')
-	plt.waitforbuttonpress()
+	res = ''
 	for img in images:
-		print recognize_digit(ann, img)
+		res +=  recognize_digit(ann, img)[0]
+
+	print ("Recognized "+res)
 
 
 def recognize_digit(ann, img):
@@ -64,12 +51,18 @@ def validate_recognition(ann, path, file_name,validation_digit):
 		if val[0] == validation_digit:
 			number_recognized+=1
 
-	print ("Recognized " + str(number_recognized))
+	print ("cypher "+validation_digit+" recognized " + str(number_recognized)+' of 100')
+
+def validate_mnist(ann):
+
+	for i in range(10):
+		naziv = 'digit_separated/digit_'+str(i)+'/'
+		validate_recognition(ann, naziv, 'test100.txt', str(i))
 
 
 def main():
 
-	print ('Start!')
+	print ('Start...')
 
 	#digits1000, images1000, avg = create_train_hundred_test()
 	
@@ -82,25 +75,23 @@ def main():
 	#pickle.dump( ann_best, open("saveANN_best.p", "wb"))
 	
 
-	#ann1000_best = pickle.load( open( "saveANN_best.p", "rb" ))
+	ann1000_best = pickle.load( open( "saveANN1000_test.p", "rb" ))
 
-	#print ("Moja slika")
-	#rec_all(ann1000_best, 'images/img6.png')
+	print ("\n\nMNIST dataset")
+	validate_mnist(ann1000_best)
 
-	#print ("MNIST slicice")
-	#validate_recognition(ann1000_best, 'digit_separated/digit_0/', 'test100.txt', '0')
+
+	print ("\n\nHandwritten digits recognition")
+	recognize_all(ann1000_best, 'images/img6.png')
+
 
 	#plt.imshow(avg[8], 'gray', interpolation='nearest')
 	#plt.waitforbuttonpress()
 
 
 	# PRINTED RECOGNITION
+	print ("\n\nPrinted cyphers recognition")
 	print_recognition()
-
-
-
-
-	print ('Kraj')
 
 
 if __name__ == "__main__":
