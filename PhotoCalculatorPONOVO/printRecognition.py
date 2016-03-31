@@ -67,12 +67,15 @@ def konture_print(image_orig, image_bin):
 
     sorted_regions = []
     regions_dic = {}
+    region_borders = []
     i = -1
     
     for contour in contours:
     	i+=1
     	if(hierarchy[0][i][3]==0 or hierarchy[0][i][3]==-1):
 			x,y,w,h = cv2.boundingRect(contour)
+			borders = [x,y,w,h]
+			region_borders.append(borders)
 			region = image_bin[y:y+h+1,x:x+w+1]
 			#regions_dic[x] = resize_region(region)  
 			regions_dic[x] = region  
@@ -84,7 +87,7 @@ def konture_print(image_orig, image_bin):
     sorted_regions = sorted_regions_dic.values()
     # sortirati sve regione po x osi (sa leva na desno) i smestiti u promenljivu sorted_regions
 
-    return image_orig, sorted_regions 
+    return image_orig, sorted_regions, region_borders
 
 
 def create_ann_print():
@@ -120,7 +123,7 @@ def print_recognition():
 	train_img = load_image('print_train/train_basic.jpg')
 	train_bin = invert(image_bin(image_gray(train_img)))
 
-	n, kont = konture_print(train_img.copy(), train_bin)
+	n, kont, region_borders = konture_print(train_img.copy(), train_bin)
 	konture =[]
 	i=0
 	for k in kont:
@@ -138,7 +141,7 @@ def print_recognition():
 	#pickle.dump( ann_print, open("saveANN_stampanoZagrade.p", "wb"))
 	
 	ann_print = pickle.load( open( "saveANN_stampanoZagrade.p", "rb" ) )
-
+	print ("VALIDATION")
 	validate_print_recognition(ann_print)
 
 
@@ -146,10 +149,14 @@ def validate_print_recognition(ann):
 
 	print('Prepoznate cifre')
 	res=''
-	test_img = load_image('print_test/img3.jpg')
+	test_img = load_image('print_test/img7.jpg')
 	test_bin = invert(image_bin(image_gray(test_img)))
 	
-	n, kont = konture_print(test_img.copy(), test_bin)
+	n, kont, region_borders = konture_print(test_img.copy(), test_bin)
+	region_borders = sort_borders(region_borders)
+	print region_borders
+	
+
 	konture = []
 	for k in kont:
 		konture.append(img_resize(k))
@@ -158,12 +165,16 @@ def validate_print_recognition(ann):
 		res+=recog_contour(ann, k)[0]
 
 	print res
-	print ('Result procesing '+exp_preproc(res))
+	proc_res = exp_preproc(res, region_borders)
+	print ('Result procesing '+proc_res)
+	#wa = get_result(proc_res)
+	#print wa
 
 	#plt.imshow(konture[0], 'gray')
 	#plt.waitforbuttonpress()
 
 	#n, kont = konture_print(train_img.copy(), train_bin)
+
 
 def recog_contour(ann_print, kont):
 	alphabet = ['0','1','2','3','4','5','6','7','8','9','+','-','*','/', '(',')']
@@ -175,14 +186,47 @@ def recog_contour(ann_print, kont):
 	ret_val = display_result(result, alphabet)
 	return ret_val
 
+def exp_preproc(exp, original_contours):
 
-def exp_preproc(exp):
-
+	temp=[]
+	j=0
 	for i in range(len(exp)):
-		if exp[i]==')':
-			print ("nadjen ) na mestu"+ str(i))
+		i+=j
+		if i < len(exp):
+			if exp[i]==')' and is_digit(exp[i+1]): # stepenovanje
+				temp.append(exp[i])
+				temp.append('^')
 
-	return exp
+			elif exp[i]=='-' and is_digit(exp[i+1]) and is_digit(exp[i+2]):
+				if original_contours[i+1][0]>=original_contours[i][0] and original_contours[i+1][0]<=original_contours[i][0]+original_contours[i][2]:
+					if(original_contours[i+1][1]<original_contours[i+2][1]):
+						up = exp[i+1]
+						down = exp[i+2]
+					else:
+						up=exp[i+2]
+						down = exp[i+1]
+
+					temp.append(up)
+					temp.append('/')
+					temp.append(down)
+					j+=2
+				
+			else:
+				if(i<=len(exp)):
+					temp.append(exp[i])
+
+
+	ret_val=''
+	for i in range(len(temp)):
+		ret_val+=temp[i]
+
+	return ret_val
+
+def sort_borders(region_borders):
+	data = np.array(region_borders)
+	col = 0
+	ret_val =  data[np.argsort(data[:,col])]
+	return ret_val
 
 def is_digit(c):
 	if(c=='0' or c=='1' or c=='2' or c=='3' or c=='4'):
