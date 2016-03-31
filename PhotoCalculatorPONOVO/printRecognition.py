@@ -149,7 +149,7 @@ def validate_print_recognition(ann):
 
 	print('Prepoznate cifre')
 	res=''
-	test_img = load_image('print_test/img7.jpg')
+	test_img = load_image('print_test/img8.jpg')
 	test_bin = invert(image_bin(image_gray(test_img)))
 	
 	n, kont, region_borders = konture_print(test_img.copy(), test_bin)
@@ -193,9 +193,12 @@ def exp_preproc(exp, original_contours):
 	for i in range(len(exp)):
 		i+=j
 		if i < len(exp):
-			if exp[i]==')' and is_digit(exp[i+1]): # stepenovanje
-				temp.append(exp[i])
-				temp.append('^')
+			if exp[i]==')' and i+1<len(exp):
+				if is_digit(exp[i+1]): # stepenovanje
+					temp.append(exp[i])
+					temp.append('^')
+				else:
+					temp.append(exp[i])
 
 			elif exp[i]=='-' and is_digit(exp[i+1]) and is_digit(exp[i+2]):
 				if original_contours[i+1][0]>=original_contours[i][0] and original_contours[i+1][0]<=original_contours[i][0]+original_contours[i][2]:
